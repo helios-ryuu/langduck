@@ -1,0 +1,125 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Core Git
+# ──────────────────────────────────────────────────────────────────────────────
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Icon?
+desktop.ini
+
+# Linux
+*~
+
+# Vim swap
+*.swp
+*.swo
+
+# Temp
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.patch
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+.env
+.env.*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Node / Frontend
+# ──────────────────────────────────────────────────────────────────────────────
+# Node modules
+/frontend/node_modules/
+/backend/node_modules/
+
+# Vite build output
+/frontend/dist/
+/frontend/.vite/
+
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PHP / Laravel (backend/)
+# ──────────────────────────────────────────────────────────────────────────────
+# Composer dependencies
+/backend/vendor/
+/composer.phar
+
+# Laravel generated
+/backend/public/storage/
+/backend/.phpunit.result.cache
+
+# Homestead / Vagrant
+/backend/homestead.yaml
+/backend/homestead.json
+
+# ──────────────────────────────────────────────────────────────────────────────
+# IDEs & Editors
+# ──────────────────────────────────────────────────────────────────────────────
+# VSCode
+.vscode/
+/backend/.vscode/
+/frontend/.vscode/
+
+# PhpStorm, IntelliJ
+.idea/
+/backend/.idea/
+/frontend/.idea/
+
+# IntelliJ module files
+.idea_modules/
+
+# History
+.history/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Docker & Compose
+# ──────────────────────────────────────────────────────────────────────────────
+# Docker override and cache
+**/docker-compose.override.yml
+.docker/
+/docker-compose.override.yml
+
+# PostgreSQL data volume (if you mount by path instead of named volume)
+/database/postgres/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Testing & Coverage
+# ──────────────────────────────────────────────────────────────────────────────
+/coverage/
+/.nyc_output/
+/junit.xml
+/lcov-report/
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Misc artifacts
+# ──────────────────────────────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.7z
+*.rar
+*.pdf
+*.exe
+*.dll
+*.so
+*.dylib
+/backend/package-lock.json
