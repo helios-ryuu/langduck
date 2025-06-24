@@ -97,7 +97,7 @@ copy .env.example .env
 
 # Copy backend .env
 
-copy backend.env.example backend.env
+copy backend/.env.example backend/.env
 ```
 Edit `.env` files to set ports and database credentials as needed.
 
