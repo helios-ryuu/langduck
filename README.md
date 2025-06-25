@@ -85,20 +85,58 @@ git checkout develop
 ```bash
 git checkout -t origin/develop
 ```
-
 ### 2. Configure Git user and SSH signing key:
+
+#### Set your Git identity
+
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
-ssh-keygen -t ed25519 -C "you@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519_signing"
-type "$env:USERPROFILE\.ssh\id_ed25519_signing.pub"
-# Add the key as a Signing key in GitHub settings
+```
 
-# Enable commit signing
+---
+
+#### Generate an SSH **signing key** (not for pushing)
+
+```bash
+ssh-keygen -t ed25519 -C "you@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519_signing"
+```
+
+This creates:
+
+* Private key: `id_ed25519_signing`
+* Public key: `id_ed25519_signing.pub`
+
+---
+
+#### Copy the public key
+
+```bash
+type "$env:USERPROFILE\.ssh\id_ed25519_signing.pub"
+```
+
+Open GitHub to add the **signing key**: [https://github.com/settings/ssh/new](https://github.com/settings/ssh/new)
+
+Fill in:
+
+* **Title**: `SSH signing key`
+* **Key type**: `Signing key`
+* **Key**: Paste what you copied
+
+---
+
+#### Enable commit signing using SSH key
+
+```bash
 git config --global gpg.format ssh
 git config --global user.signingkey "$env:USERPROFILE\.ssh\id_ed25519_signing"
 git config --global commit.gpgsign true
 ```
+
+
+#### Done ✅! Now every commit will be signed with your SSH key.
+
+You can verify it by committing something and pushing — GitHub will show a **“Verified”** badge next to your commit.
 
 ### 3. Environment variables:
 
@@ -112,6 +150,7 @@ copy .env.example .env
 copy backend/.env.example backend/.env
 ```
 Edit `.env` files to set ports and database credentials as needed.
+
 
 ## 3. Running Locally
 
