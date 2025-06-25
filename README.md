@@ -26,14 +26,15 @@ Follow steps **1.1 Enable WSL & Virtualization**, **1.2 Install Docker Desktop**
 <project-root>/
 ├── backend/                        # Laravel application
 ├── frontend/                       # Vue/Vite application
-├── database/                       # Database migrations & seeders
 ├── docs/                           # Project documentation
 ├── .dockerignore                   # Files to exclude from Docker build context
 ├── .env.example                    # Example environment variables
 ├── docker-compose.yml              # Dev Docker Compose configuration
 ├── docker-compose.prod.yml         # Production Docker Compose configuration
-├── .github/workflows/              # CI/CD workflows (Docker image build)
-└── README.md                       # Project overview and instructions
+├── README.md                       # Project overview and instructions
+└── .github/
+    └── workflows/
+        └── docker-image.yml        # GitHub Actions workflow for build/push image
 ```
 
 ## 1. Setup
@@ -69,24 +70,73 @@ Reboot your machine.
 ### 1. Clone the repo and switch to the branch:
 
 ```bash
+# Clone the repository
 git clone <repo-url>
+
+# Navigate into the project directory
 cd <project-root>
-git checkout develop  # or main
+
+# Check out the develop branch to start development
+git checkout develop
 ```
 
+**Note**: If you're checking out the develop branch for the first time, you may need to set up tracking:
+
+```bash
+git checkout -t origin/develop
+```
 ### 2. Configure Git user and SSH signing key:
+
+#### Set your Git identity
+
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
-ssh-keygen -t ed25519 -C "you@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519_signing"
-type "$env:USERPROFILE\.ssh\id_ed25519_signing.pub"
-# Add the key as a Signing key in GitHub settings
+```
 
-# Enable commit signing
+---
+
+#### Generate an SSH **signing key** (not for pushing)
+
+```bash
+ssh-keygen -t ed25519 -C "you@example.com" -f "$env:USERPROFILE\.ssh\id_ed25519_signing"
+```
+
+This creates:
+
+* Private key: `id_ed25519_signing`
+* Public key: `id_ed25519_signing.pub`
+
+---
+
+#### Copy the public key
+
+```bash
+type "$env:USERPROFILE\.ssh\id_ed25519_signing.pub"
+```
+
+Open GitHub to add the **signing key**: [https://github.com/settings/ssh/new](https://github.com/settings/ssh/new)
+
+Fill in:
+
+* **Title**: `SSH signing key`
+* **Key type**: `Signing key`
+* **Key**: Paste what you copied
+
+---
+
+#### Enable commit signing using SSH key
+
+```bash
 git config --global gpg.format ssh
 git config --global user.signingkey "$env:USERPROFILE\.ssh\id_ed25519_signing"
 git config --global commit.gpgsign true
 ```
+
+
+#### Done ✅! Now every commit will be signed with your SSH key.
+
+You can verify it by committing something and pushing — GitHub will show a **“Verified”** badge next to your commit.
 
 ### 3. Environment variables:
 
@@ -100,6 +150,7 @@ copy .env.example .env
 copy backend/.env.example backend/.env
 ```
 Edit `.env` files to set ports and database credentials as needed.
+
 
 ## 3. Running Locally
 
@@ -142,20 +193,13 @@ Only changed layers will rebuild for faster turnaround.
 
 If you do **not** need the development setup and want to run using the **production compose file**, follow these steps:
 
-1. **Pull the latest images** from Docker Hub:
+1. **Pull the latest images** from Docker Hub and **start services** with the production compose file [docker-compose.prod.yml](docker-compose.prod.yml) in the repository by running:
 
    ```bash
-   docker pull heliosryuu/langduck:backend-latest
-   docker pull heliosryuu/langduck:frontend-latest
+   docker compose -f docker-compose.prod.yml up --pull always -d
    ```
 
-2. **Start services** with the production compose file [docker-compose.prod.yml](docker-compose.prod.yml) in the same directory by running:
-
-   ```bash
-   docker compose -f docker-compose.prod.yml up -d
-   ```
-
-3. **Verify**:
+2. **Verify**:
 
     * Backend: `http://localhost:8000`
     * Frontend: `http://localhost:5173`

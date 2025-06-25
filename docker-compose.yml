@@ -20,6 +20,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
       target: dev
+    dns:
+      - 8.8.8.8
     container_name: backend
     restart: unless-stopped
     env_file: [ .env ]
@@ -40,6 +42,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    dns:
+      - 8.8.8.8
     container_name: frontend
     restart: unless-stopped
     env_file: [ .env ]
