@@ -26,14 +26,15 @@ Follow steps **1.1 Enable WSL & Virtualization**, **1.2 Install Docker Desktop**
 <project-root>/
 ├── backend/                        # Laravel application
 ├── frontend/                       # Vue/Vite application
-├── database/                       # Database migrations & seeders
 ├── docs/                           # Project documentation
 ├── .dockerignore                   # Files to exclude from Docker build context
 ├── .env.example                    # Example environment variables
 ├── docker-compose.yml              # Dev Docker Compose configuration
 ├── docker-compose.prod.yml         # Production Docker Compose configuration
-├── .github/workflows/              # CI/CD workflows (Docker image build)
-└── README.md                       # Project overview and instructions
+├── README.md                       # Project overview and instructions
+└── .github/
+    └── workflows/
+        └── docker-image.yml        # GitHub Actions workflow for build/push image
 ```
 
 ## 1. Setup
@@ -69,9 +70,20 @@ Reboot your machine.
 ### 1. Clone the repo and switch to the branch:
 
 ```bash
+# Clone the repository
 git clone <repo-url>
+
+# Navigate into the project directory
 cd <project-root>
-git checkout develop  # or main
+
+# Check out the develop branch to start development
+git checkout develop
+```
+
+**Note**: If you're checking out the develop branch for the first time, you may need to set up tracking:
+
+```bash
+git checkout -t origin/develop
 ```
 
 ### 2. Configure Git user and SSH signing key:
@@ -142,20 +154,13 @@ Only changed layers will rebuild for faster turnaround.
 
 If you do **not** need the development setup and want to run using the **production compose file**, follow these steps:
 
-1. **Pull the latest images** from Docker Hub:
+1. **Pull the latest images** from Docker Hub and **start services** with the production compose file [docker-compose.prod.yml](docker-compose.prod.yml) in the repository by running:
 
    ```bash
-   docker pull heliosryuu/langduck:backend-latest
-   docker pull heliosryuu/langduck:frontend-latest
+   docker compose -f docker-compose.prod.yml up --pull always -d
    ```
 
-2. **Start services** with the production compose file [docker-compose.prod.yml](docker-compose.prod.yml) in the same directory by running:
-
-   ```bash
-   docker compose -f docker-compose.prod.yml up -d
-   ```
-
-3. **Verify**:
+2. **Verify**:
 
     * Backend: `http://localhost:8000`
     * Frontend: `http://localhost:5173`

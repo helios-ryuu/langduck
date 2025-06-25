@@ -1,6 +1,6 @@
 services:
   backend:
-    image: heliosryuu/langduck:backend-${TAG:-latest}
+    image: heliosryuu/langduck:backend-latest
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -26,7 +26,7 @@ services:
              php artisan serve --host=0.0.0.0 --port=8000"
 
   frontend:
-    image: heliosryuu/langduck:frontend-${TAG:-latest}
+    image: heliosryuu/langduck:frontend-latest
     restart: unless-stopped
     ports:
       - "5173:5173"
